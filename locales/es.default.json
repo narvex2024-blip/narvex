@@ -1,0 +1,28 @@
+{
+  "general": {
+    "accessibility": {
+      "skip_to_content": "Saltar al contenido"
+    },
+    "cart": {
+      "title": "Carrito"
+    },
+    "search": {
+      "search": "Buscar"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Añadir al carrito",
+      "sold_out": "Agotado",
+      "unavailable": "No disponible"
+    }
+  },
+  "sections": {
+    "header": {
+      "announcement": "Anuncio"
+    },
+    "footer": {
+      "payment": "Métodos de pago"
+    }
+  }
+}
