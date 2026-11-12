@@ -1,0 +1,1 @@
+document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('a[href="#MainContent"]').forEach(link=>link.addEventListener('click',e=>{e.preventDefault();document.querySelector('.hero')?.scrollIntoView({behavior:'smooth'});}));});
