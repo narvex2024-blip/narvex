@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111111">
+<title>{{ page_title }}{% unless page_title contains shop.name %} — {{ shop.name }}{% endunless %}</title>
+{% if page_description %}<meta name="description" content="{{ page_description | escape }}">{% endif %}
+{{ content_for_header }}
+{{ 'narvex.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'narvex.js' | asset_url }}" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#MainContent">Saltar al contenido</a>
+<header class="site-header"><div class="page-width header-inner"><a class="brand" href="{{ routes.root_url }}"><span class="brand-icon">N</span>NARVEX</a><a class="cart-link" href="{{ routes.cart_url }}">Bolsa ({{ cart.item_count }})</a></div></header>
+<main id="MainContent">{{ content_for_layout }}</main>
+<footer class="footer"><div class="page-width"><a class="brand" href="{{ routes.root_url }}">NARVEX</a><p>Protección adicional para cada trayecto.</p><small>© {{ 'now' | date: '%Y' }} {{ shop.name }}</small></div></footer>
+</body></html>
