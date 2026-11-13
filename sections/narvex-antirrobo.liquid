@@ -1,47 +1,75 @@
 {% assign product = section.settings.product %}
 <section class="announcement">{{ section.settings.announcement | escape }}</section>
 <section class="hero page-width">
-<div class="hero-copy">
-<p class="eyebrow">SEGURIDAD PARA TU VEHÍCULO</p>
-<h1>{{ section.settings.headline | escape }}</h1>
-<p class="lead">{{ section.settings.subheadline | escape }}</p>
-{% if product != blank %}
-{% assign variant = product.selected_or_first_available_variant %}
-<p class="price">{{ variant.price | money }}</p>
-<p class="price-note">{{ section.settings.price_note | escape }}</p>
-{% form 'product', product, class: 'buy-form' %}
-{% if product.has_only_default_variant %}<input type="hidden" name="id" value="{{ variant.id }}">{% else %}
-<label for="variant-{{ section.id }}">Selecciona una opción</label><select id="variant-{{ section.id }}" name="id">{% for v in product.variants %}<option value="{{ v.id }}" {% if v == variant %}selected{% endif %} {% unless v.available %}disabled{% endunless %}>{{ v.title }} — {{ v.price | money }}</option>{% endfor %}</select>{% endif %}
-<button class="button" type="submit" {% unless variant.available %}disabled{% endunless %}>{% if variant.available %}{{ section.settings.cta | escape }}{% else %}AGOTADO{% endif %}</button>
-{% endform %}
-{% else %}
-<p class="price">$79.900 COP</p><p class="price-note">{{ section.settings.price_note | escape }}</p>
-<p class="editor-note"><strong>Falta seleccionar el producto.</strong> Abre Personalizar → Narvex Antirrobo → Producto Shopify y elige el candado de tu catálogo. El botón de compra aparecerá cuando esté seleccionado.</p>
-{% endif %}
-<div class="trust">✓ Atención en Colombia <span>✓ Compra segura</span></div>
-</div>
-<div class="hero-image">
-{% if product != blank and product.featured_image %}
-{{ product.featured_image | image_url: width: 1400 | image_tag: loading: 'eager', widths: '500, 800, 1100, 1400', alt: product.title }}
-{% elsif section.settings.hero_image != blank %}
-{{ section.settings.hero_image | image_url: width: 1400 | image_tag: loading: 'eager', alt: section.settings.headline }}
-{% else %}<div class="placeholder"><strong>Tu producto, en primer plano.</strong><span>Sube una fotografía real del antirrobo desde el editor.</span></div>{% endif %}
-</div>
+  <div class="hero-copy">
+    <p class="eyebrow">SEGURIDAD ADICIONAL PARA TU VEHÍCULO</p>
+    <h1>{{ section.settings.headline | escape }}</h1>
+    <p class="lead">{{ section.settings.subheadline | escape }}</p>
+    {% if product != blank %}
+      {% assign variant = product.selected_or_first_available_variant %}
+      <div class="purchase-panel">
+        <p class="price">{{ variant.price | money }}</p>
+        <p class="price-note">Envío gratis a toda Colombia · Pagas cuando recibes</p>
+        {% form 'product', product, class: 'buy-form' %}
+          {% if product.has_only_default_variant %}
+            <input type="hidden" name="id" value="{{ variant.id }}">
+          {% else %}
+            <label for="variant-{{ section.id }}">Selecciona una opción</label>
+            <select id="variant-{{ section.id }}" name="id">
+              {% for v in product.variants %}
+                <option value="{{ v.id }}" {% if v == variant %}selected{% endif %} {% unless v.available %}disabled{% endunless %}>{{ v.title }} — {{ v.price | money }}</option>
+              {% endfor %}
+            </select>
+          {% endif %}
+          <button class="button" type="submit" {% unless variant.available %}disabled{% endunless %}>{% if variant.available %}{{ section.settings.cta | escape }}{% else %}AGOTADO{% endif %}</button>
+        {% endform %}
+        <div class="purchase-assurance"><span>✓ Envío gratis</span><span>✓ Pago contraentrega</span></div>
+      </div>
+    {% else %}
+      <p class="price">$79.900 COP</p>
+      <p class="price-note">Envío gratis a toda Colombia · Pagas cuando recibes</p>
+      <p class="editor-note"><strong>Falta seleccionar el producto.</strong> En el editor del tema, abre Narvex Antirrobo y elige el producto de tu catálogo.</p>
+    {% endif %}
+    <p class="small-trust">Compra en Narvex · Atención en Colombia</p>
+  </div>
+  <div class="hero-image">
+    {% if product != blank and product.featured_image %}
+      {{ product.featured_image | image_url: width: 1400 | image_tag: loading: 'eager', widths: '500, 800, 1100, 1400', alt: product.title }}
+    {% elsif section.settings.hero_image != blank %}
+      {{ section.settings.hero_image | image_url: width: 1400 | image_tag: loading: 'eager', alt: section.settings.headline }}
+    {% else %}
+      <div class="placeholder"><strong>Tu producto, en primer plano.</strong><span>Selecciona una fotografía real del antirrobo.</span></div>
+    {% endif %}
+  </div>
 </section>
-<section class="benefits"><div class="page-width"><p class="eyebrow">UNA MEDIDA ADICIONAL DE SEGURIDAD</p><h2>Protección visible. Uso sencillo.</h2><div class="cards">
-<article><span>01</span><h3>Disuasión visible</h3><p>Hace evidente que tu vehículo cuenta con una medida adicional de protección.</p></article>
-<article><span>02</span><h3>Se conecta al cinturón</h3><p>Se fija en el punto donde encaja el cinturón de seguridad y se ajusta al volante para dificultar su giro.</p></article>
-<article><span>03</span><h3>Práctico al estacionar</h3><p>Colócalo al dejar el vehículo y retíralo completamente antes de conducir.</p></article>
-</div></div></section>
-<section class="how page-width"><div><p class="eyebrow">CÓMO SE UTILIZA</p><h2>Instálalo en pocos pasos.</h2><ol><li><b>Estaciona</b><p>Apaga el motor y deja el vehículo detenido.</p></li><li><b>Conecta el candado</b><p>Inserta el extremo de cierre en el anclaje del cinturón de seguridad.</p></li><li><b>Ajusta al volante</b><p>Coloca y ajusta el lazo alrededor del volante para dejarlo sujeto.</p></li><li><b>Retíralo antes de conducir</b><p>Verifica que el dispositivo esté completamente retirado antes de encender.</p></li></ol></div>
-{% if section.settings.install_image != blank %}<div class="install-image">{{ section.settings.install_image | image_url: width: 1000 | image_tag: loading: 'lazy', alt: 'Dispositivo antirrobo instalado' }}</div>{% endif %}</section>
-<section class="faq"><div class="page-width"><p class="eyebrow">PREGUNTAS FRECUENTES</p><h2>Información clara antes de comprar.</h2>
-<details><summary>¿El dispositivo evita por completo el hurto?</summary><p>No existe un dispositivo que garantice protección absoluta. Este producto es una medida adicional de disuasión y debe complementar otras prácticas de seguridad.</p></details>
-<details><summary>¿Puedo conducir con el dispositivo instalado?</summary><p>No. Retíralo completamente antes de encender o conducir el vehículo.</p></details>
-<details><summary>¿Es compatible con todos los vehículos?</summary><p>Antes de comprar, verifica que el anclaje del cinturón y el volante de tu vehículo permitan colocar el dispositivo. La longitud indicada en la ficha es de 66,5 cm.</p></details>
-<details><summary>¿Cómo puedo pagar?</summary><p>Sí. En Narvex puedes pagar contraentrega: realizas el pago cuando recibes tu pedido. El envío es gratis a toda Colombia.</p></details>
+<section class="benefits"><div class="page-width">
+  <p class="eyebrow">UNA MEDIDA ADICIONAL DE SEGURIDAD</p>
+  <h2>Haz más visible el cuidado de tu vehículo.</h2>
+  <div class="cards">
+    <article><span>01</span><h3>Disuasión visible</h3><p>Un elemento adicional que hace notar que tu vehículo cuenta con una medida de seguridad.</p></article>
+    <article><span>02</span><h3>Sujeción al volante</h3><p>Se conecta al anclaje del cinturón de seguridad y se ajusta alrededor del volante.</p></article>
+    <article><span>03</span><h3>Fácil de incorporar</h3><p>Úsalo al estacionar y retíralo completamente antes de conducir.</p></article>
+  </div>
 </div></section>
-<section class="closing"><div class="page-width"><p class="eyebrow">NARVEX</p><h2>Cuida tu vehículo con una medida adicional.</h2><a class="button" href="#MainContent">QUIERO EL MÍO</a></div></section>
+<section class="how page-width {% if section.settings.install_image == blank %}how-no-image{% endif %}">
+  <div><p class="eyebrow">CÓMO SE UTILIZA</p><h2>Colócalo al estacionar.</h2>
+    <ol>
+      <li><b>Estaciona tu vehículo</b><p>Apaga el motor y asegúrate de que esté detenido.</p></li>
+      <li><b>Conecta el dispositivo</b><p>Inserta el extremo de cierre en el anclaje del cinturón de seguridad.</p></li>
+      <li><b>Ajusta al volante</b><p>Coloca el lazo alrededor del volante y ajústalo para dejarlo sujeto.</p></li>
+      <li><b>Retíralo antes de conducir</b><p>Comprueba que el dispositivo esté completamente retirado antes de encender.</p></li>
+    </ol>
+  </div>
+  {% if section.settings.install_image != blank %}<div class="install-image">{{ section.settings.install_image | image_url: width: 1000 | image_tag: loading: 'lazy', alt: 'Dispositivo antirrobo instalado' }}</div>{% endif %}
+</section>
+<section class="faq"><div class="page-width">
+  <p class="eyebrow">PREGUNTAS FRECUENTES</p><h2>Resuelve tus dudas.</h2>
+  <details><summary>¿El dispositivo evita por completo el hurto?</summary><p>Ningún dispositivo garantiza protección absoluta. Este producto es una medida adicional de disuasión y complementa otras prácticas de seguridad.</p></details>
+  <details><summary>¿Puedo conducir con el dispositivo instalado?</summary><p>No. Retíralo completamente antes de encender o conducir el vehículo.</p></details>
+  <details><summary>¿Es compatible con todos los vehículos?</summary><p>Antes de comprar, verifica que el anclaje del cinturón y el volante de tu vehículo permitan colocarlo. La longitud indicada para el dispositivo es de 66,5 cm.</p></details>
+  <details><summary>¿Cómo funciona el pago contraentrega?</summary><p>Realizas el pago cuando recibes tu pedido. En Narvex el envío es gratis a toda Colombia.</p></details>
+</div></section>
+<section class="closing"><div class="page-width"><p class="eyebrow">NARVEX</p><h2>Una medida adicional para cuidar tu vehículo.</h2><a class="button" href="#MainContent">COMPRAR AHORA</a><p class="closing-note">$79.900 COP · Envío gratis · Pago contraentrega</p></div></section>
 {% schema %}
-{"name":"Narvex Antirrobo","settings":[{"type":"product","id":"product","label":"Producto Shopify"},{"type":"image_picker","id":"hero_image","label":"Imagen principal alternativa"},{"type":"image_picker","id":"install_image","label":"Foto del dispositivo instalado"},{"type":"text","id":"announcement","label":"Barra superior","default":"ENVÍO GRATIS A TODA COLOMBIA · PAGO CONTRAENTREGA"},{"type":"text","id":"headline","label":"Título","default":"Más tranquilidad. Más control."},{"type":"textarea","id":"subheadline","label":"Descripción","default":"Candado antirrobo ajustable que se conecta al anclaje del cinturón de seguridad y se ajusta al volante."},{"type":"text","id":"price_note","label":"Nota de precio","default":"Envío gratis a toda Colombia · Pagas al recibir"},{"type":"text","id":"cta","label":"Texto del botón","default":"COMPRAR AHORA"}],"presets":[{"name":"Narvex Antirrobo"}]}
+{"name":"Narvex Antirrobo","settings":[{"type":"product","id":"product","label":"Producto Shopify"},{"type":"image_picker","id":"hero_image","label":"Imagen principal alternativa"},{"type":"image_picker","id":"install_image","label":"Foto del dispositivo instalado"},{"type":"text","id":"announcement","label":"Barra superior","default":"ENVÍO GRATIS A TODA COLOMBIA · PAGO CONTRAENTREGA"},{"type":"text","id":"headline","label":"Título","default":"Más tranquilidad. Más control."},{"type":"textarea","id":"subheadline","label":"Descripción","default":"Candado antirrobo ajustable que conecta el volante con el anclaje del cinturón de seguridad. Una medida adicional de disuasión para tu vehículo."},{"type":"text","id":"price_note","label":"Nota de precio","default":"Envío gratis a toda Colombia · Pagas al recibir"},{"type":"text","id":"cta","label":"Texto del botón","default":"COMPRAR AHORA"}],"presets":[{"name":"Narvex Antirrobo"}]}
 {% endschema %}
