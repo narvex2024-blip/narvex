@@ -1,0 +1,48 @@
+{% style %}
+  .narvex-cart{padding-top:48px;padding-bottom:72px;max-width:760px}
+  .narvex-cart h1{font:400 clamp(32px,5vw,46px)/1.1 Georgia,serif;letter-spacing:-.03em;margin:0 0 28px}
+  .cart-item{display:grid;grid-template-columns:84px 1fr auto;gap:16px;align-items:center;padding:18px 0;border-top:1px solid var(--line)}
+  .cart-item img{width:84px;height:84px;object-fit:contain;background:var(--soft)}
+  .cart-item p{margin:2px 0;font-size:14px;color:var(--muted)}
+  .cart-item a{font-weight:700;font-size:15px}
+  .cart-item input{width:64px;height:44px;border:1px solid #ddd;padding:0 8px;font-size:16px;text-align:center}
+  .cart-remove{font-size:13px!important;color:var(--muted)!important;font-weight:500!important}
+  .cart-total{font-size:20px;font-weight:800;border-top:1px solid var(--line);padding-top:18px;margin:0 0 18px}
+  .cart-actions{display:grid;gap:10px}
+  .cart-actions .button-light{background:#fff;color:#111;border:1px solid #111}
+  .cart-actions .button-light:hover{background:var(--soft)}
+  .cart-empty{text-align:center;padding:40px 0}
+  @media(max-width:760px){.cart-item{grid-template-columns:64px 1fr}.cart-item img{width:64px;height:64px}.cart-item input{grid-column:2;width:80px}}
+{% endstyle %}
+<section class="narvex-cart page-width">
+  <h1>Tu bolsa</h1>
+  {% if cart.item_count > 0 %}
+    <form action="{{ routes.cart_url }}" method="post">
+      {% for item in cart.items %}
+        <div class="cart-item">
+          {% if item.image %}{{ item.image | image_url: width: 200 | image_tag: loading: 'lazy', alt: item.product.title }}{% else %}<div></div>{% endif %}
+          <div>
+            <a href="{{ item.url }}">{{ item.product.title }}</a>
+            {% unless item.product.has_only_default_variant %}<p>{{ item.variant.title }}</p>{% endunless %}
+            <p>{{ item.final_price | money }}</p>
+            <a class="cart-remove" href="{{ item.url_to_remove }}">Quitar</a>
+          </div>
+          <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" aria-label="Cantidad de {{ item.product.title | escape }}">
+        </div>
+      {% endfor %}
+      <p class="cart-total">Total: {{ cart.total_price | money_with_currency }}</p>
+      <div class="cart-actions">
+        <button class="button" type="submit" name="checkout">FINALIZAR COMPRA</button>
+        <button class="button button-light" type="submit" name="update">ACTUALIZAR CANTIDADES</button>
+      </div>
+    </form>
+  {% else %}
+    <div class="cart-empty">
+      <p>Tu bolsa está vacía.</p>
+      <a class="button" href="{{ routes.root_url }}">VOLVER A LA TIENDA</a>
+    </div>
+  {% endif %}
+</section>
+{% schema %}
+{"name":"Carrito Narvex","settings":[]}
+{% endschema %}

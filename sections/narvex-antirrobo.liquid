@@ -1,4 +1,4 @@
-{% assign product = section.settings.product %}
+{% assign product = section.settings.product | default: product %}
 <section class="announcement">{{ section.settings.announcement | escape }}</section>
 <section class="hero page-width">
   <div class="hero-copy">
