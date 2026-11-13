@@ -11,7 +11,7 @@
 </head>
 <body>
 <a class="skip-link" href="#MainContent">Saltar al contenido</a>
-<header class="site-header"><div class="page-width header-inner"><a class="brand" href="{{ routes.root_url }}"><span class="brand-icon">N</span>NARVEX</a><a class="cart-link" href="{{ routes.cart_url }}">Bolsa ({{ cart.item_count }})</a></div></header>
+<header class="site-header"><div class="page-width header-inner"><a class="brand" href="{{ routes.root_url }}" aria-label="NARVEX — Inicio"><img src="{{ 'narvex-logo.webp' | asset_url }}" alt="NARVEX" width="193" height="40" style="height:40px;width:auto;display:block"></a><a class="cart-link" href="{{ routes.cart_url }}">Bolsa ({{ cart.item_count }})</a></div></header>
 <main id="MainContent">{{ content_for_layout }}</main>
 <footer class="footer"><div class="page-width"><a class="brand" href="{{ routes.root_url }}">NARVEX</a><p>Protección adicional para cada trayecto.</p><small>© {{ 'now' | date: '%Y' }} {{ shop.name }}</small></div></footer>
 </body></html>
