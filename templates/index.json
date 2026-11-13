@@ -12,12 +12,12 @@
     "main": {
       "type": "narvex-antirrobo",
       "settings": {
+        "product": "bloqueo-de-volante",
+        "announcement": "ENVÍO GRATIS A TODA COLOMBIA · PAGO CONTRAENTREGA",
         "headline": "Más tranquilidad. Más control.",
         "subheadline": "Una medida adicional de seguridad para tu vehículo, diseñada para conectar el volante con la hebilla del cinturón.",
-        "announcement": "ENVÍO GRATIS A TODA COLOMBIA · PAGO CONTRAENTREGA",
         "price_note": "Envío gratis a toda Colombia · Pagas al recibir",
-        "cta": "COMPRAR AHORA",
-        "product": "bloqueo-de-volante"
+        "cta": "AGREGAR AL CARRITO"
       }
     }
   },
