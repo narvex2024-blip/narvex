@@ -7,17 +7,17 @@
     <p class="lead">{{ section.settings.subheadline | escape }}</p>
     {% if product != blank %}
       {% assign variant = product.selected_or_first_available_variant %}
-      <div class="purchase-panel">
-        <p class="price">{{ variant.price | money }}</p>
-        <p class="price-note">Envío gratis a toda Colombia · Pagas cuando recibes</p>
+      <div class="purchase-panel" id="comprar">
+        <p class="price" data-variant-price>{{ variant.price | money }}</p>
+        <p class="price-note">{{ section.settings.price_note | escape }}</p>
         {% form 'product', product, class: 'buy-form' %}
           {% if product.has_only_default_variant %}
             <input type="hidden" name="id" value="{{ variant.id }}">
           {% else %}
             <label for="variant-{{ section.id }}">Selecciona una opción</label>
-            <select id="variant-{{ section.id }}" name="id">
+            <select id="variant-{{ section.id }}" name="id" data-variant-select>
               {% for v in product.variants %}
-                <option value="{{ v.id }}" {% if v == variant %}selected{% endif %} {% unless v.available %}disabled{% endunless %}>{{ v.title }} — {{ v.price | money }}</option>
+                <option value="{{ v.id }}" data-price="{{ v.price | money | escape }}" {% if v == variant %}selected{% endif %} {% unless v.available %}disabled{% endunless %}>{{ v.title }} — {{ v.price | money }}</option>
               {% endfor %}
             </select>
           {% endif %}
@@ -26,8 +26,8 @@
         <div class="purchase-assurance"><span>✓ Envío gratis</span><span>✓ Pago contraentrega</span></div>
       </div>
     {% else %}
-      <p class="price">$79.900 COP</p>
-      <p class="price-note">Envío gratis a toda Colombia · Pagas cuando recibes</p>
+      <p class="price" id="comprar">$79.900 COP</p>
+      <p class="price-note">{{ section.settings.price_note | escape }}</p>
       <p class="editor-note"><strong>Falta seleccionar el producto.</strong> En el editor del tema, abre Narvex Antirrobo y elige el producto de tu catálogo.</p>
     {% endif %}
     <p class="small-trust">Compra en Narvex · Atención en Colombia</p>
@@ -69,7 +69,7 @@
   <details><summary>¿Es compatible con todos los vehículos?</summary><p>Antes de comprar, verifica que el anclaje del cinturón y el volante de tu vehículo permitan colocarlo. La longitud indicada para el dispositivo es de 66,5 cm.</p></details>
   <details><summary>¿Cómo funciona el pago contraentrega?</summary><p>Realizas el pago cuando recibes tu pedido. En Narvex el envío es gratis a toda Colombia.</p></details>
 </div></section>
-<section class="closing"><div class="page-width"><p class="eyebrow">NARVEX</p><h2>Una medida adicional para cuidar tu vehículo.</h2><a class="button" href="#MainContent">COMPRAR AHORA</a><p class="closing-note">$79.900 COP · Envío gratis · Pago contraentrega</p></div></section>
+<section class="closing"><div class="page-width"><p class="eyebrow">NARVEX</p><h2>Una medida adicional para cuidar tu vehículo.</h2><a class="button" href="#comprar">COMPRAR AHORA</a><p class="closing-note">{% if product != blank %}{{ product.selected_or_first_available_variant.price | money_with_currency }}{% else %}$79.900 COP{% endif %} · Envío gratis · Pago contraentrega</p></div></section>
 {% schema %}
 {"name":"Narvex Antirrobo","settings":[{"type":"product","id":"product","label":"Producto Shopify"},{"type":"image_picker","id":"hero_image","label":"Imagen principal alternativa"},{"type":"image_picker","id":"install_image","label":"Foto del dispositivo instalado"},{"type":"text","id":"announcement","label":"Barra superior","default":"ENVÍO GRATIS A TODA COLOMBIA · PAGO CONTRAENTREGA"},{"type":"text","id":"headline","label":"Título","default":"Más tranquilidad. Más control."},{"type":"textarea","id":"subheadline","label":"Descripción","default":"Candado antirrobo ajustable que conecta el volante con el anclaje del cinturón de seguridad. Una medida adicional de disuasión para tu vehículo."},{"type":"text","id":"price_note","label":"Nota de precio","default":"Envío gratis a toda Colombia · Pagas al recibir"},{"type":"text","id":"cta","label":"Texto del botón","default":"COMPRAR AHORA"}],"presets":[{"name":"Narvex Antirrobo"}]}
 {% endschema %}
