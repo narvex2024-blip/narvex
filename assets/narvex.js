@@ -8,12 +8,17 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.querySelectorAll('[data-variant-select]').forEach(select=>{
     const priceEl=document.querySelector('[data-variant-price]');
     const compareEl=document.querySelector('[data-variant-compare]');
+    const saveEl=document.querySelector('[data-variant-save]');
     const update=()=>{
       const option=select.options[select.selectedIndex];
       if(priceEl&&option&&option.dataset.price)priceEl.textContent=option.dataset.price;
       if(compareEl){
         if(option&&option.dataset.compare){compareEl.textContent=option.dataset.compare;compareEl.hidden=false;}
         else{compareEl.hidden=true;}
+      }
+      if(saveEl){
+        if(option&&option.dataset.save){saveEl.textContent='Ahorras '+option.dataset.save+'%';saveEl.hidden=false;}
+        else{saveEl.hidden=true;}
       }
     };
     select.addEventListener('change',update);

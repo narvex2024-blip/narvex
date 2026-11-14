@@ -5,9 +5,11 @@
   {%- assign gallery_count = gallery_images.size -%}
 {%- endif -%}
 {% style %}
-  .price-row{display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 14px}
+  .price-row{display:flex;align-items:center;flex-wrap:wrap;gap:4px 14px}
   .price-old{font-size:clamp(19px,2.6vw,24px);font-weight:700;color:#666;text-decoration:line-through;text-decoration-thickness:2px;font-variant-numeric:tabular-nums}
   .price-old[hidden]{display:none}
+  .price-save{padding:4px 9px;background:var(--nv-accent);color:var(--nv-ink);border-radius:3px;font-size:12px;font-weight:900;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+  .price-save[hidden]{display:none}
   .hero-gallery{min-width:0}
   .nv-stage{position:relative;background:var(--nv-soft);border-radius:4px;overflow:hidden}
   .nv-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch}
@@ -40,6 +42,7 @@
         <div class="price-row">
           <p class="price" data-variant-price>{{ variant.price | money_without_trailing_zeros }}</p>
           <s class="price-old" data-variant-compare{% unless variant.compare_at_price > variant.price %} hidden{% endunless %}>{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money_without_trailing_zeros }}{% endif %}</s>
+          <span class="price-save" data-variant-save{% unless variant.compare_at_price > variant.price %} hidden{% endunless %}>{% if variant.compare_at_price > variant.price %}Ahorras {{ variant.compare_at_price | minus: variant.price | times: 100 | divided_by: variant.compare_at_price }}%{% endif %}</span>
         </div>
         <p class="price-note">{{ section.settings.price_note | escape }}</p>
         {% form 'product', product, class: 'buy-form' %}
@@ -49,7 +52,7 @@
             <label for="variant-{{ section.id }}">Selecciona una opción</label>
             <select id="variant-{{ section.id }}" name="id" data-variant-select>
               {% for v in product.variants %}
-                <option value="{{ v.id }}" data-price="{{ v.price | money_without_trailing_zeros | escape }}" data-compare="{% if v.compare_at_price > v.price %}{{ v.compare_at_price | money_without_trailing_zeros | escape }}{% endif %}" {% if v == variant %}selected{% endif %} {% unless v.available %}disabled{% endunless %}>{{ v.title }} — {{ v.price | money_without_trailing_zeros }}</option>
+                <option value="{{ v.id }}" data-price="{{ v.price | money_without_trailing_zeros | escape }}" data-compare="{% if v.compare_at_price > v.price %}{{ v.compare_at_price | money_without_trailing_zeros | escape }}{% endif %}" data-save="{% if v.compare_at_price > v.price %}{{ v.compare_at_price | minus: v.price | times: 100 | divided_by: v.compare_at_price }}{% endif %}" {% if v == variant %}selected{% endif %} {% unless v.available %}disabled{% endunless %}>{{ v.title }} — {{ v.price | money_without_trailing_zeros }}</option>
               {% endfor %}
             </select>
           {% endif %}
