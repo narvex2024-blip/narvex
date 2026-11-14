@@ -11,14 +11,16 @@ A bold, road-ready retail identity: high-contrast black, white and signal orange
 - Signal orange — `#F05A28` — `--nv-accent` — primary actions and key emphasis.
 - White — `#FFFFFF` — `--nv-paper` — main surface and text on dark surfaces.
 - Mist — `#F2F2F0` — `--nv-soft` — alternating content surface.
-- Steel — `#666666` — `--nv-muted` — supporting copy.
-- Line — `#DDDDDA` — `--nv-line` — separators and borders.
+- Steel — `#626262` — `--nv-muted` — supporting copy.
+- Line — `#DEDEDB` — `--nv-line` — separators and borders.
 
 ## Typography
-- Display and headings: theme-native system sans stack `Arial, Helvetica, sans-serif`, bold weights 700–900, tight line height 0.98–1.1, responsive 34–68px.
-- Body and controls: same native sans stack, 400–650, 14–17px, line height 1.5–1.65.
-- Price: 800–900, 34–42px, tabular numerals.
-- No external font dependency. Small uppercase labels use 11–12px and restrained letter spacing.
+- Display and headings: `Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif`; locally available condensed sans-serif stack, regular face, visually strong and compact. Hero 50–82px, section headings 39–60px, card headings 24–25px; line height 0.94–1.0; neutral tracking 0–0.005em.
+- Body and controls: `"Trebuchet MS", "Segoe UI", Arial, sans-serif`; 400–800, 14–16px, line height 1.62–1.7.
+- Price: display stack, 42–54px, tabular numerals.
+- Primary CTA and compact navigation: display stack, 15–18px, restrained tracking 0.055em.
+- Small uppercase labels use display stack at 11–12px with 0.09em letter spacing.
+- No external font provider or remote font dependency. Keep same-classification sans-serif fallbacks.
 
 ## Spacing and composition
 - Content max width 1200px; desktop gutters 28–40px, mobile gutters 18px.
@@ -30,10 +32,10 @@ A bold, road-ready retail identity: high-contrast black, white and signal orange
 ## Components
 - Announcement: compact black strip, white centered copy.
 - Header: white background, logo left, concise anchor navigation and cart link right; compact on mobile.
-- Primary button: orange background, near-black text, bold uppercase label, minimum 54px height, visible focus.
+- Primary button: orange background, near-black text, condensed display face, minimum 54px height, visible focus.
 - Secondary link: black text with underline or border, no competing filled style.
-- Product hero: strong headline and short explanation beside a large product image; price and purchase action grouped together.
-- Benefit cards: white surfaces, dark headings, orange detail marks, short practical copy.
+- Product hero: strong condensed headline and short readable explanation beside a large product image; price and purchase action grouped together.
+- Benefit cards: white surfaces, dark headings in condensed display face, orange detail marks, short practical copy.
 - Steps: clear numbered list with generous spacing and optional real product-in-use image.
 - FAQ: native details/summary disclosure rows with clear separators.
 - Footer: black surface, white logo/brand, concise support and purchase information.
@@ -44,9 +46,10 @@ A bold, road-ready retail identity: high-contrast black, white and signal orange
 - Do use concise, factual Spanish for Colombian buyers.
 - Do retain honest safety language: the device is an additional deterrent, not a guarantee against theft.
 - Do make all key text, images and product selection editable in Shopify's theme editor.
+- Do use expressive condensed typography for impact and a calmer body face for comfortable reading.
 - Don't invent reviews, guarantees, delivery times, compatibility or security claims.
 - Don't overload the page with badges, popups, gradients or decorative shapes.
-- Don't hide critical information behind interactions or push the purchase action far below the fold.
+- Don't use remote font dependencies or sacrifice readability on mobile.
 
 ## Motion philosophy
 Motion is functional only: subtle hover/focus feedback and smooth in-page anchor movement. Respect reduced-motion preferences; no autoplay, parallax or attention-grabbing loops.
