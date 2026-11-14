@@ -2,7 +2,7 @@
 <html lang="{{ request.locale.iso_code }}">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#111111">
+<meta name="theme-color" content="#101010">
 <title>{{ page_title }}{% unless page_title contains shop.name %} — {{ shop.name }}{% endunless %}</title>
 {% if page_description %}<meta name="description" content="{{ page_description | escape }}">{% endif %}
 {{ content_for_header }}
@@ -11,7 +11,25 @@
 </head>
 <body>
 <a class="skip-link" href="#MainContent">Saltar al contenido</a>
-<header class="site-header"><div class="page-width header-inner"><a class="brand" href="{{ routes.root_url }}" aria-label="NARVEX — Inicio"><img src="{{ 'narvex-logo.webp' | asset_url }}" alt="NARVEX" width="193" height="40" style="height:40px;width:auto;display:block"></a><a class="cart-link" href="{{ routes.cart_url }}">Bolsa ({{ cart.item_count }})</a></div></header>
+<header class="site-header">
+  <div class="page-width header-inner">
+    <a class="brand" href="{{ routes.root_url }}" aria-label="Narvex, inicio"><img src="{{ 'narvex-logo.webp' | asset_url }}" alt="Narvex" width="193" height="40"></a>
+    <nav class="header-nav" aria-label="Navegación principal">
+      <a href="{{ routes.root_url }}#beneficios">Beneficios</a>
+      <a href="{{ routes.root_url }}#como-funciona">Cómo se usa</a>
+      <a href="{{ routes.root_url }}#preguntas">Preguntas</a>
+    </nav>
+    <a class="cart-link" href="{{ routes.cart_url }}" aria-label="Ver bolsa de compras, {{ cart.item_count }} artículos">Bolsa <span>{{ cart.item_count }}</span></a>
+  </div>
+</header>
 <main id="MainContent">{{ content_for_layout }}</main>
-<footer class="footer"><div class="page-width"><a class="brand" href="{{ routes.root_url }}">NARVEX</a><p>Protección adicional para cada trayecto.</p><small>© {{ 'now' | date: '%Y' }} {{ shop.name }}</small></div></footer>
+<footer class="footer">
+  <div class="page-width footer-main">
+    <div class="footer-brand"><a class="brand" href="{{ routes.root_url }}"><img src="{{ 'narvex-logo.webp' | asset_url }}" alt="Narvex" width="193" height="40"></a><p>Accesorios prácticos para cuidar lo que te mueve.</p></div>
+    <div class="footer-links"><a href="{{ routes.root_url }}#beneficios">Beneficios</a><a href="{{ routes.root_url }}#como-funciona">Cómo se usa</a><a href="{{ routes.root_url }}#preguntas">Preguntas frecuentes</a><a href="{{ routes.cart_url }}">Mi bolsa</a></div>
+    <div class="footer-promise"><strong>Compra con tranquilidad</strong><span>Envío gratis</span><span>Pago contraentrega en ciudades con cobertura</span></div>
+  </div>
+  <div class="page-width footer-bottom"><small>© {{ 'now' | date: '%Y' }} {{ shop.name }}. Todos los derechos reservados.</small><small>Atención a clientes en Colombia</small></div>
+</footer>
+<div class="sr-only" id="sr-announcer" aria-live="polite" aria-atomic="true"></div>
 </body></html>
