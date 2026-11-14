@@ -10,3 +10,14 @@
 @media(max-width:850px){.header-nav{gap:16px}.header-nav a{font-size:11px}.hero{gap:4%;grid-template-columns:.95fr 1.05fr}.hero-image{min-height:420px}.footer-main{gap:28px}}
 @media(max-width:680px){html{scroll-padding-top:20px}.page-width{width:calc(100% - 36px)}.announcement-bar{font-size:10px;letter-spacing:.07em;min-height:34px}.header-inner{min-height:66px;gap:12px}.brand img{height:32px;max-width:145px}.header-nav{display:none}.cart-link{font-size:11px}.hero{grid-template-columns:1fr;padding:24px 0 48px;gap:20px}.hero-image{order:-1;min-height:290px;max-height:360px}.hero-image img{max-height:350px}.hero h1{font-size:clamp(43px,12vw,56px);margin:13px 0}.lead{font-size:14px}.purchase-panel{max-width:none;margin-top:20px;padding:18px}.price{font-size:36px}.button{min-height:56px;width:100%}.purchase-assurance{gap:8px 14px;font-size:11px}.benefits{padding:52px 0 58px}.benefits h2,.how h2,.faq h2{font-size:36px}.cards{grid-template-columns:1fr;gap:10px}.cards article{min-height:0;padding:20px}.cards h3{margin:10px 0 6px}.how{grid-template-columns:1fr;padding:58px 0;gap:25px}.install-image{padding:9px}.faq{padding:54px 0}.faq summary{font-size:14px}.closing{padding:55px 0}.closing h2{font-size:39px}.footer{padding:38px 0 18px}.footer-main{grid-template-columns:1fr 1fr;gap:28px 18px;padding-bottom:28px}.footer-brand{grid-column:1/-1}.footer-promise{grid-column:1/-1}.footer-bottom{flex-direction:column;gap:5px}.cart-item{grid-template-columns:64px 1fr}.cart-item img{width:64px;height:64px}.cart-item input{grid-column:2;width:80px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
+
+/* Floating personalized WhatsApp support */
+.whatsapp-float{position:fixed;right:22px;bottom:22px;z-index:40;display:flex;align-items:center;gap:10px;padding:12px 17px 12px 13px;background:#25d366;color:#073b20;border:2px solid #fff;border-radius:999px;box-shadow:0 5px 22px rgba(0,0,0,.2);font-size:12px;line-height:1.25;font-weight:600;transition:transform .16s ease,box-shadow .16s ease}
+.whatsapp-float:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(0,0,0,.24)}
+.whatsapp-float svg{width:27px;height:27px;fill:currentColor;flex:none}
+.whatsapp-float span{display:grid;gap:2px}
+.whatsapp-float strong{font-size:13px;font-weight:900}
+.whatsapp-float:focus-visible{outline:3px solid #111;outline-offset:4px}
+@media(max-width:680px){.whatsapp-float{right:12px;bottom:14px;padding:11px 14px 11px 11px;gap:8px}.whatsapp-float svg{width:25px;height:25px}.whatsapp-float span{font-size:11px}.whatsapp-float strong{font-size:12px}}
+.whatsapp-icon{display:grid!important;place-items:center;width:27px;height:27px;border-radius:50%;background:#fff;color:#25d366;font-size:20px;font-weight:900}
+@media(max-width:680px){.whatsapp-icon{width:25px;height:25px;font-size:18px}}
