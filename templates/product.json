@@ -12,10 +12,10 @@
     "main": {
       "type": "narvex-antirrobo",
       "settings": {
-        "announcement": "ENVÍO GRATIS · PAGO CONTRAENTREGA EN CIUDADES CON COBERTURA",
+        "announcement": "ENVÍO GRATIS · PAGO CONTRAENTREGA",
         "headline": "Parquea tranquilo. Vuelve sin dudas.",
         "subheadline": "Bloqueo antirrobo que conecta el volante con el broche del cinturón de seguridad y se cierra con llave. Visible, sencillo de usar y pensado para el día a día.",
-        "price_note": "Envío gratis · Pagas al recibir en ciudades con cobertura",
+        "price_note": "Envío gratis · Pago contraentrega",
         "cta": "COMPRAR AHORA"
       }
     }

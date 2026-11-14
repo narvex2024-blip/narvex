@@ -1,4 +1,30 @@
 {% assign product = section.settings.product | default: product %}
+{%- assign gallery_count = 0 -%}
+{%- if product != blank -%}
+  {%- assign gallery_images = product.media | where: 'media_type', 'image' -%}
+  {%- assign gallery_count = gallery_images.size -%}
+{%- endif -%}
+{% style %}
+  .hero-gallery{min-width:0}
+  .nv-stage{position:relative;background:var(--nv-soft);border-radius:4px;overflow:hidden}
+  .nv-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .nv-track::-webkit-scrollbar{display:none}
+  .nv-track:focus-visible{outline-offset:-3px}
+  .nv-slide{flex:0 0 100%;scroll-snap-align:center;scroll-snap-stop:always;aspect-ratio:1/1;display:grid;place-items:center}
+  .nv-slide img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;display:block}
+  .nv-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:2;display:grid;place-items:center;width:44px;height:44px;padding:0;background:#fff;color:var(--nv-ink);border:2px solid var(--nv-ink);border-radius:50%;cursor:pointer;transition:background .16s ease,opacity .16s ease}
+  .nv-nav:hover{background:var(--nv-accent)}
+  .nv-nav:disabled{opacity:.35;cursor:default;background:#fff}
+  .nv-prev{left:10px}.nv-next{right:10px}
+  .nv-count{position:absolute;right:12px;bottom:12px;z-index:2;padding:4px 10px;background:var(--nv-ink);color:#fff;border-radius:99px;font-size:11px;font-weight:800;letter-spacing:.06em}
+  .nv-thumbs{position:relative;display:flex;gap:8px;margin-top:10px;padding-bottom:4px;overflow-x:auto;scrollbar-width:thin}
+  .nv-thumb{flex:0 0 auto;width:76px;height:76px;padding:0;background:var(--nv-soft);border:2px solid transparent;border-radius:3px;cursor:pointer;opacity:.72;transition:opacity .16s ease,border-color .16s ease}
+  .nv-thumb:hover{opacity:1}
+  .nv-thumb[aria-current="true"]{border-color:var(--nv-accent);opacity:1}
+  .nv-thumb img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;display:block}
+  @media(max-width:680px){.hero-gallery{order:-1}.nv-nav{width:38px;height:38px}.nv-prev{left:6px}.nv-next{right:6px}.nv-thumb{width:60px;height:60px}}
+  @media(prefers-reduced-motion:reduce){.nv-track{scroll-behavior:auto}}
+{% endstyle %}
 <section class="announcement">{{ section.settings.announcement | escape }}</section>
 <section class="hero page-width">
   <div class="hero-copy">
@@ -23,8 +49,7 @@
           {% endif %}
           <button class="button" type="submit" {% unless variant.available %}disabled{% endunless %}>{% if variant.available %}{{ section.settings.cta | escape }}{% else %}AGOTADO{% endif %}</button>
         {% endform %}
-        <div class="purchase-assurance"><span>Envío gratis</span><span>Pagas al recibir*</span></div>
-        <p class="small-trust">*Pago contraentrega en ciudades con cobertura.</p>
+        <div class="purchase-assurance"><span>Envío gratis</span><span>Pago contraentrega</span></div>
       </div>
     {% else %}
       <div class="purchase-panel" id="comprar">
@@ -33,15 +58,44 @@
     {% endif %}
     <p class="small-trust">Compra en Narvex · Atención a clientes en Colombia</p>
   </div>
-  <div class="hero-image">
-    {% if product != blank and product.featured_image %}
-      {{ product.featured_image | image_url: width: 1400 | image_tag: loading: 'eager', widths: '500, 800, 1100, 1400', alt: product.title }}
-    {% elsif section.settings.hero_image != blank %}
-      {{ section.settings.hero_image | image_url: width: 1400 | image_tag: loading: 'eager', alt: section.settings.headline }}
-    {% else %}
-      <div class="placeholder"><strong>Tu producto, en primer plano.</strong><span>Selecciona una fotografía real del antirrobo.</span></div>
-    {% endif %}
-  </div>
+  {% if gallery_count > 0 %}
+    <div class="hero-gallery">
+      <div class="nv-gallery" data-nv-gallery role="region" aria-roledescription="carrusel" aria-label="Fotografías de {{ product.title | escape }}">
+        <div class="nv-stage">
+          <div class="nv-track" data-nv-track tabindex="0" aria-label="Fotografías del producto. Deslízalas o usa las flechas del teclado.">
+            {% for media in gallery_images %}
+              {% assign slide_alt = media.alt | default: product.title %}
+              <div class="nv-slide" data-nv-slide role="group" aria-roledescription="diapositiva" aria-label="Imagen {{ forloop.index }} de {{ gallery_count }}">
+                {% if forloop.first %}
+                  {{ media.preview_image | image_url: width: 1200 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '480, 720, 960, 1200', sizes: '(min-width: 681px) 600px, 100vw', alt: slide_alt }}
+                {% else %}
+                  {{ media.preview_image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '480, 720, 960, 1200', sizes: '(min-width: 681px) 600px, 100vw', alt: slide_alt }}
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+          {% if gallery_count > 1 %}
+            <button class="nv-nav nv-prev" type="button" data-nv-prev aria-label="Imagen anterior"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button class="nv-nav nv-next" type="button" data-nv-next aria-label="Imagen siguiente"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <span class="nv-count" data-nv-count aria-hidden="true">1 / {{ gallery_count }}</span>
+          {% endif %}
+        </div>
+        {% if gallery_count > 1 %}
+          <div class="nv-thumbs" data-nv-thumbs>
+            {% for media in gallery_images %}
+              <button class="nv-thumb" type="button" data-nv-thumb aria-label="Ver imagen {{ forloop.index }} de {{ gallery_count }}"{% if forloop.first %} aria-current="true"{% endif %}>
+                {{ media.preview_image | image_url: width: 160 | image_tag: loading: 'lazy', widths: '80, 120, 160', sizes: '76px', alt: '' }}
+              </button>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  {% elsif section.settings.hero_image != blank %}
+    <div class="hero-image">{{ section.settings.hero_image | image_url: width: 1400 | image_tag: loading: 'eager', alt: section.settings.headline }}</div>
+  {% else %}
+    <div class="hero-image"><div class="placeholder"><strong>Tu producto, en primer plano.</strong><span>Selecciona una fotografía real del antirrobo.</span></div></div>
+  {% endif %}
 </section>
 <section class="benefits" id="beneficios"><div class="page-width">
   <p class="eyebrow">Una medida adicional de seguridad</p>
@@ -68,9 +122,66 @@
   <details><summary>¿El dispositivo evita por completo el hurto?</summary><p>Ningún dispositivo garantiza protección absoluta. Este producto es una medida adicional de disuasión y complementa otras prácticas de seguridad.</p></details>
   <details><summary>¿Puedo conducir con el dispositivo instalado?</summary><p>No. Retíralo completamente antes de encender o conducir el vehículo.</p></details>
   <details><summary>¿Es compatible con todos los vehículos?</summary><p>Antes de comprar, verifica que el anclaje del cinturón y el volante de tu vehículo permitan colocarlo. La longitud indicada para el dispositivo es de 66,5 cm.</p></details>
-  <details><summary>¿Cómo funciona el pago contraentrega?</summary><p>Pagas cuando recibes tu pedido, en las ciudades donde el servicio de contraentrega está disponible.</p></details>
+  <details><summary>¿Cómo funciona el pago contraentrega?</summary><p>Pagas cuando recibes tu pedido.</p></details>
 </div></section>
-<section class="closing"><div class="page-width"><p class="eyebrow">Narvex</p><h2>Estaciona con una medida extra de protección.</h2><a class="button" href="#comprar">COMPRAR AHORA</a><p class="closing-note">Envío gratis · Pago contraentrega en ciudades con cobertura</p></div></section>
+<section class="closing"><div class="page-width"><p class="eyebrow">Narvex</p><h2>Estaciona con una medida extra de protección.</h2><a class="button" href="#comprar">COMPRAR AHORA</a><p class="closing-note">Envío gratis · Pago contraentrega</p></div></section>
+{% if gallery_count > 1 %}
+<script>
+(function(){
+  document.querySelectorAll('[data-nv-gallery]').forEach(function(root){
+    var track=root.querySelector('[data-nv-track]');
+    var slides=root.querySelectorAll('[data-nv-slide]');
+    var thumbs=[].slice.call(root.querySelectorAll('[data-nv-thumb]'));
+    var thumbsBox=root.querySelector('[data-nv-thumbs]');
+    var count=root.querySelector('[data-nv-count]');
+    var prev=root.querySelector('[data-nv-prev]');
+    var next=root.querySelector('[data-nv-next]');
+    var total=slides.length;
+    var current=0;
+    var ticking=false;
+    if(!track||total<2)return;
+    function update(i){
+      current=i;
+      thumbs.forEach(function(t,k){
+        if(k===i){t.setAttribute('aria-current','true');}else{t.removeAttribute('aria-current');}
+      });
+      if(count)count.textContent=(i+1)+' / '+total;
+      if(prev)prev.disabled=(i===0);
+      if(next)next.disabled=(i===total-1);
+      var th=thumbs[i];
+      if(th&&thumbsBox&&thumbsBox.scrollWidth>thumbsBox.clientWidth){
+        thumbsBox.scrollTo({left:th.offsetLeft-(thumbsBox.clientWidth-th.offsetWidth)/2,behavior:'smooth'});
+      }
+    }
+    function goTo(i){
+      i=Math.max(0,Math.min(total-1,i));
+      track.scrollTo({left:i*track.clientWidth,behavior:'smooth'});
+      update(i);
+    }
+    track.addEventListener('scroll',function(){
+      if(ticking)return;
+      ticking=true;
+      requestAnimationFrame(function(){
+        ticking=false;
+        var i=Math.round(track.scrollLeft/track.clientWidth);
+        if(i!==current&&i>=0&&i<total)update(i);
+      });
+    },{passive:true});
+    track.addEventListener('keydown',function(e){
+      if(e.key==='ArrowLeft'){e.preventDefault();goTo(current-1);}
+      if(e.key==='ArrowRight'){e.preventDefault();goTo(current+1);}
+    });
+    if(prev)prev.addEventListener('click',function(){goTo(current-1);});
+    if(next)next.addEventListener('click',function(){goTo(current+1);});
+    thumbs.forEach(function(t,k){t.addEventListener('click',function(){goTo(k);});});
+    window.addEventListener('resize',function(){
+      track.scrollTo({left:current*track.clientWidth,behavior:'auto'});
+    });
+    update(0);
+  });
+})();
+</script>
+{% endif %}
 {% schema %}
-{"name":"Narvex Antirrobo","settings":[{"type":"product","id":"product","label":"Producto Shopify"},{"type":"image_picker","id":"hero_image","label":"Imagen principal alternativa"},{"type":"image_picker","id":"install_image","label":"Foto del dispositivo instalado"},{"type":"text","id":"announcement","label":"Barra superior","default":"ENVÍO GRATIS · PAGO CONTRAENTREGA EN CIUDADES CON COBERTURA"},{"type":"text","id":"headline","label":"Título","default":"Más tranquilidad. Más control."},{"type":"textarea","id":"subheadline","label":"Descripción","default":"Bloqueo antirrobo que conecta el volante con el anclaje del cinturón de seguridad y se cierra con llave. Una medida adicional de disuasión para tu vehículo."},{"type":"text","id":"price_note","label":"Nota de precio","default":"Envío gratis · Pagas al recibir en ciudades con cobertura"},{"type":"text","id":"cta","label":"Texto del botón","default":"COMPRAR AHORA"}],"presets":[{"name":"Narvex Antirrobo"}]}
+{"name":"Narvex Antirrobo","settings":[{"type":"product","id":"product","label":"Producto Shopify"},{"type":"image_picker","id":"hero_image","label":"Imagen principal alternativa"},{"type":"image_picker","id":"install_image","label":"Foto del dispositivo instalado"},{"type":"text","id":"announcement","label":"Barra superior","default":"ENVÍO GRATIS · PAGO CONTRAENTREGA"},{"type":"text","id":"headline","label":"Título","default":"Más tranquilidad. Más control."},{"type":"textarea","id":"subheadline","label":"Descripción","default":"Bloqueo antirrobo que conecta el volante con el anclaje del cinturón de seguridad y se cierra con llave. Una medida adicional de disuasión para tu vehículo."},{"type":"text","id":"price_note","label":"Nota de precio","default":"Envío gratis · Pago contraentrega"},{"type":"text","id":"cta","label":"Texto del botón","default":"COMPRAR AHORA"}],"presets":[{"name":"Narvex Antirrobo"}]}
 {% endschema %}
